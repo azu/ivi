@@ -32,19 +32,29 @@ export function checkRefs(n: Node, v: IVNode<any>) {
             }
         }
     } else {
-        let i = 0;
         let child = n.firstChild;
         if (child) {
             expect(!!(flags & VNodeFlags.Element)).to.true;
         }
-        while (child) {
-            if (flags & VNodeFlags.ChildrenArray) {
-                checkRefs(child, (v._children as IVNode<any>[])[i++]);
-            } else if (flags & VNodeFlags.ChildrenVNode) {
-                checkRefs(child, v._children as IVNode<any>);
-                expect(child.nextSibling).to.null;
+        if (flags & VNodeFlags.ChildrenArray) {
+            const children = v._children as IVNode<any>[];
+            for (let i = 0; i < children.length; i++) {
+                const c = children[i];
+                if (c !== null) {
+                    if (Array.isArray(c)) {
+                        for (let j = 0; j < c.length; j++) {
+                            checkRefs(child!, c[j]);
+                            child = child!.nextSibling;
+                        }
+                    } else {
+                        checkRefs(child!, c);
+                        child = child!.nextSibling;
+                    }
+                }
             }
-            child = child.nextSibling;
+        } else if (flags & VNodeFlags.ChildrenVNode) {
+            checkRefs(child!, v._children as IVNode<any>);
+            expect(child!.nextSibling).to.null;
         }
     }
 }

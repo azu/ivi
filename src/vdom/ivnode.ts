@@ -46,7 +46,7 @@ export interface IVNode<P = null> {
      *
      * When virtual node represents an input field, children property will contain input value.
      */
-    _children: IVNode<any>[] | IVNode<any> | string | number | boolean | null | undefined;
+    _children: Array<IVNode<any>[] | IVNode<any> | null> | IVNode<any> | string | number | boolean | null | undefined;
     /**
      * Reference to HTML node or Component instance. It will be available after virtual node is created or synced. Each
      * time VNode is synced, reference will be transferred from the old VNode to the new one.

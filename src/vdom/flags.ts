@@ -36,10 +36,6 @@ export const enum VNodeFlags {
      */
     UnsafeHTML = 1 << 7,
     /**
-     * VNode is using a non-artificial key.
-     */
-    Key = 1 << 8,
-    /**
      * VNode represents an HTMLInputElement(+textarea) element.
      */
     InputElement = 1 << 9,
@@ -80,7 +76,7 @@ export const enum VNodeFlags {
     /**
      * Flags that should match to be compatible for syncing.
      */
-    Syncable = Text | Element | Component | Key | InputElement | TextAreaElement | MediaElement | SvgElement |
+    Syncable = Text | Element | Component | InputElement | TextAreaElement | MediaElement | SvgElement |
     ElementDescriptor | WebComponent,
 }
 

@@ -641,28 +641,6 @@ describe("sync", () => {
                 });
             });
 
-            it("null => false", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div"));
-                        const b = r($h("div").children(false));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("null => true", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div"));
-                        const b = r($h("div").children(true));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
             it("'abc' => null", () => {
                 startRender((r) => {
                     checkDOMOps((c) => {
@@ -678,17 +656,6 @@ describe("sync", () => {
                 startRender((r) => {
                     checkDOMOps((c) => {
                         r($h("div").children(10));
-                        const b = r($h("div"));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("true => null", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(true));
                         const b = r($h("div"));
                         expect(b.childNodes.length).to.equal(0);
                         expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
@@ -715,39 +682,6 @@ describe("sync", () => {
                         const b = r($h("div").children(10));
                         expect(b.childNodes.length).to.equal(1);
                         expect(b.firstChild!.nodeValue).to.equal("10");
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("true => true", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(true));
-                        const b = r($h("div").children(true));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("true => false", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(true));
-                        const b = r($h("div").children(false));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("false => true", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(false));
-                        const b = r($h("div").children(true));
-                        expect(b.childNodes.length).to.equal(0);
                         expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
                     });
                 });
@@ -789,17 +723,6 @@ describe("sync", () => {
                 });
             });
 
-            it("'abc' => true", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children("abc"));
-                        const b = r($h("div").children(true));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
             it("10 => 'abc'", () => {
                 startRender((r) => {
                     checkDOMOps((c) => {
@@ -807,41 +730,6 @@ describe("sync", () => {
                         const b = r($h("div").children("abc"));
                         expect(b.childNodes.length).to.equal(1);
                         expect(b.firstChild!.nodeValue).to.equal("abc");
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("10 => true", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(10));
-                        const b = r($h("div").children(true));
-                        expect(b.childNodes.length).to.equal(0);
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("true => 'abc'", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(true));
-                        const b = r($h("div").children("abc"));
-                        expect(b.childNodes.length).to.equal(1);
-                        expect(b.firstChild!.nodeValue).to.equal("abc");
-                        expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
-                    });
-                });
-            });
-
-            it("true => 10", () => {
-                startRender((r) => {
-                    checkDOMOps((c) => {
-                        r($h("div").children(true));
-                        const b = r($h("div").children(10));
-                        expect(b.childNodes.length).to.equal(1);
-                        expect(b.firstChild!.nodeValue).to.equal("10");
                         expectDOMOps(c, 1, 0, 0, 0, 1, 0, 0);
                     });
                 });
@@ -1066,6 +954,19 @@ describe("sync", () => {
                     checkDOMOps((c) => {
                         r($h("div").children($h("div")));
                         const b = r($h("div").children([$h("h1"), $h("h2")])) as HTMLElement;
+                        expect(b.childNodes.length).to.equal(2);
+                        expect(b.children[0].tagName.toLowerCase()).to.equal("h1");
+                        expect(b.children[1].tagName.toLowerCase()).to.equal("h2");
+                        expectDOMOps(c, 4, 0, 0, 0, 3, 1, 0);
+                    });
+                });
+            });
+
+            it("[[<h2><h1>]] => [[<h1><h2>]]", () => {
+                startRender((r) => {
+                    checkDOMOps((c) => {
+                        r($h("div").children([[$h("h2").key(2), $h("h1").key(1)]]));
+                        const b = r($h("div").children([[$h("h1").key(1), $h("h2").key(2)]])) as HTMLElement;
                         expect(b.childNodes.length).to.equal(2);
                         expect(b.children[0].tagName.toLowerCase()).to.equal("h1");
                         expect(b.children[1].tagName.toLowerCase()).to.equal("h2");
