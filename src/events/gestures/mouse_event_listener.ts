@@ -1,9 +1,7 @@
 import { FEATURES, FeatureFlags } from "../../common/feature_detection";
 import { SyntheticEventFlags } from "../flags";
-import { EventSource } from "../event_source";
 import { GestureNativeEventSource } from "./gesture_event_source";
-import { GesturePointerType, GesturePointerAction, GesturePointerEvent } from "./pointer_event";
-import { GestureEventFlags } from "./events";
+import { GesturePointerAction, GesturePointerEvent } from "./pointer_event";
 
 declare global {
     interface InputDeviceCapabilities {
@@ -44,43 +42,36 @@ function createGesturePointerEventFromMouseEvent(
         ev.pageX,
         ev.pageY,
         buttons,
-        1,
-        1,
-        // pointers without specified pressure use 0.5 for down state and 0 for up state.
-        buttons === 0 ? 0 : 0.5,
-        0,
-        0,
-        GesturePointerType.Mouse,
         true,
+        // mouse events always perform hit target tests when they are moving
+        ev.target as Element,
     );
 }
 
 export function createMouseEventListener(
-    source: EventSource,
-    pointers: GesturePointerEvent[],
     dispatch: (ev: GesturePointerEvent, target?: Element) => void,
     primaryPointers: GesturePointerEvent[] | null = null,
 ): GestureNativeEventSource {
     let activePointer: GesturePointerEvent | null = null;
 
     function activate() {
-        document.addEventListener("mousedown", onDown);
+        document.addEventListener("mousedown", onDown, true);
+        document.addEventListener("mouseup", onUp, true);
     }
 
     function deactivate() {
-        document.removeEventListener("mousedown", onDown);
+        document.removeEventListener("mousedown", onDown, true);
+        document.removeEventListener("mouseup", onUp, true);
     }
 
-    function capture(ev: GesturePointerEvent, target: Element, flags: GestureEventFlags) {
+    function startMoveTracking(ev: GesturePointerEvent, target: Element) {
         activePointer = ev;
-        document.addEventListener("mousemove", onMove);
-        document.addEventListener("mouseup", onUp);
+        document.addEventListener("mousemove", onMove, true);
     }
 
-    function release(ev: GesturePointerEvent) {
+    function stopMoveTracking(ev: GesturePointerEvent) {
         activePointer = null;
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", onUp);
+        document.removeEventListener("mousemove", onMove, true);
     }
 
     function isEventSimulatedFromTouch(ev: MouseEvent): boolean {
@@ -178,7 +169,7 @@ export function createMouseEventListener(
     return {
         activate,
         deactivate,
-        capture,
-        release,
+        startMoveTracking,
+        stopMoveTracking,
     };
 }

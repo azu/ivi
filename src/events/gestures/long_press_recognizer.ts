@@ -26,7 +26,7 @@ export class LongPressGestureRecognizer implements GestureRecognizer {
 
     addPointer(arena: GestureArena, ev: GesturePointerEvent): boolean {
         trace("LongPressGestureRecognizer.addPointer()");
-        if (ev.isPrimary === true) {
+        if (this.arena === null) {
             // assert(this.arena === null);
             this.arena = arena;
             this.startX = ev.x;

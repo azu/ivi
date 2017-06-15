@@ -39,33 +39,17 @@ export const enum FeatureFlags {
      */
     // NativePromise = 1 << 4,
     /**
-     * Pointer Events support.
-     */
-    PointerEvents = 1 << 5,
-    /**
      * Touch Events support.
      */
-    TouchEvents = 1 << 6,
-    /**
-     * Device with a touchscreen.
-     *
-     * `navigator.maxTouchPoints > 0`
-     */
-    PointerEventsTouch = 1 << 7,
-    /**
-     * Multitouch-capable device.
-     *
-     * `navigator.maxTouchPoints > 1`
-     */
-    PointerEventsMultiTouch = 1 << 8,
+    TouchEvents = 1 << 5,
     /**
      * InputDeviceCapabilities.
      */
-    InputDeviceCapabilities = 1 << 9,
+    InputDeviceCapabilities = 1 << 6,
     /**
      * MouseEvent.buttons property.
      */
-    MouseEventButtons = 1 << 10,
+    MouseEventButtons = 1 << 7,
 }
 
 /**
@@ -122,23 +106,7 @@ if (__IVI_BROWSER__) {
     //     FEATURES |= FeatureFlags.NativePromise;
     // }
 
-    /**
-     * Check PointerEvents and TouchEvents support.
-     *
-     * Prefer PointerEvents over TouchEvents when both are available.
-     */
-    if ("PointerEvent" in window) {
-        FEATURES |= FeatureFlags.PointerEvents;
-        /**
-         * Touch/Multitouch detection.
-         */
-        if (navigator.maxTouchPoints > 0) {
-            FEATURES |= FeatureFlags.PointerEventsTouch;
-            if (navigator.maxTouchPoints > 1) {
-                FEATURES |= FeatureFlags.PointerEventsMultiTouch;
-            }
-        }
-    } else if ("ontouchstart" in window) {
+    if ("ontouchstart" in window) {
         FEATURES |= FeatureFlags.TouchEvents;
     }
 

@@ -25,6 +25,22 @@ export const EVENT_PASSIVE_OPTIONS =
         false;
 
 /**
+ * `{ capture: true, passive: false }` object that should be used as a third parameter in `addEventListener`.
+ */
+export const EVENT_CAPTURE_ACTIVE_OPTIONS =
+    ((FEATURES & FeatureFlags.PassiveEvents) !== 0) ?
+        { "capture": true, "passive": false } :
+        true;
+
+/**
+ * `{ passive: false }` object that should be used as a third parameter in `addEventListener`.
+ */
+export const EVENT_ACTIVE_OPTIONS =
+    ((FEATURES & FeatureFlags.PassiveEvents) !== 0) ?
+        { "passive": false } :
+        false;
+
+/**
  * Get Event options that should be used when adding Event Listener.
  *
  * #quirks
@@ -33,6 +49,12 @@ export const EVENT_PASSIVE_OPTIONS =
  * @returns Option object that can be used as a 3rd parameter in `addEventListener` call.
  */
 export function getEventOptions(flags: NativeEventSourceFlags): boolean | { capture?: boolean, passive?: boolean } {
+    if ((flags & NativeEventSourceFlags.Active) !== 0) {
+        if ((flags & NativeEventSourceFlags.Capture) !== 0) {
+            return EVENT_CAPTURE_ACTIVE_OPTIONS;
+        }
+        return EVENT_ACTIVE_OPTIONS;
+    }
     if ((flags & NativeEventSourceFlags.Passive) !== 0) {
         if ((flags & NativeEventSourceFlags.Capture) !== 0) {
             return EVENT_CAPTURE_PASSIVE_OPTIONS;

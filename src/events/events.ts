@@ -227,10 +227,10 @@ export interface NativeActiveEventSourcesList {
 }
 
 export const NativeActiveEventSources = {
-    touchend: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles, "touchend", SyntheticTouchEvent),
-    touchmove: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles, "touchmove", SyntheticTouchEvent),
-    touchstart: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles, "touchstart", SyntheticTouchEvent),
-    wheel: new NativeEventSource<SyntheticNativeEventClass<WheelEvent, SyntheticWheelEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles, "wheel", SyntheticWheelEvent),
+    touchend: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles | NativeEventSourceFlags.Active, "touchend", SyntheticTouchEvent),
+    touchmove: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles | NativeEventSourceFlags.Active, "touchmove", SyntheticTouchEvent),
+    touchstart: new NativeEventSource<SyntheticNativeEventClass<TouchEvent, SyntheticTouchEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles | NativeEventSourceFlags.Active, "touchstart", SyntheticTouchEvent),
+    wheel: new NativeEventSource<SyntheticNativeEventClass<WheelEvent, SyntheticWheelEvent>>(NativeEventSourceFlags.Capture | NativeEventSourceFlags.Bubbles | NativeEventSourceFlags.Active, "wheel", SyntheticWheelEvent),
 };
 
 /**

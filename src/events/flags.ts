@@ -13,10 +13,11 @@ export const enum NativeEventSourceFlags {
      * should ignore it.
      */
     Passive = 1 << 1,
+    Active = 1 << 2,
     /**
      * Bubbles flag indicating that the event is bubbling.
      */
-    Bubbles = 1 << 2,
+    Bubbles = 1 << 3,
 }
 
 /**

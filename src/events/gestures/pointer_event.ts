@@ -6,13 +6,6 @@
 import { SyntheticEvent } from "../synthetic_event";
 import { SyntheticEventFlags } from "../flags";
 
-export const enum GesturePointerType {
-    Unknown = 1,
-    Mouse = 1 << 1,
-    Touch = 1 << 2,
-    Pen = 1 << 3,
-}
-
 export const enum GesturePointerAction {
     Down = 1,
     Move = 1 << 1,
@@ -28,13 +21,8 @@ export class GesturePointerEvent extends SyntheticEvent {
     pageX: number;
     pageY: number;
     buttons: number;
-    width: number;
-    height: number;
-    pressure: number;
-    tiltX: number;
-    tiltY: number;
-    type: GesturePointerType;
     isPrimary: boolean;
+    hitTarget: Element | null;
 
     constructor(
         flags: SyntheticEventFlags,
@@ -47,13 +35,8 @@ export class GesturePointerEvent extends SyntheticEvent {
         pageX: number,
         pageY: number,
         buttons: number,
-        width: number,
-        height: number,
-        pressure: number,
-        tiltX: number,
-        tiltY: number,
-        type: GesturePointerType,
         isPrimary: boolean,
+        hitTarget: Element | null,
     ) {
         super(flags, timestamp);
         this.id = id;
@@ -63,12 +46,14 @@ export class GesturePointerEvent extends SyntheticEvent {
         this.pageX = pageX;
         this.pageY = pageY;
         this.buttons = buttons;
-        this.width = width;
-        this.height = height;
-        this.pressure = pressure;
-        this.tiltX = tiltX;
-        this.tiltY = tiltY;
-        this.type = type;
         this.isPrimary = isPrimary;
+        this.hitTarget = hitTarget;
+    }
+
+    findHitTarget(): Element {
+        if (this.hitTarget === null) {
+            this.hitTarget = document.elementFromPoint(this.x, this.y);
+        }
+        return this.hitTarget;
     }
 }

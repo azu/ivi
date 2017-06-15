@@ -6,13 +6,7 @@ import { GestureEventSource } from "./gesture_event_source";
 import { GestureRecognizer } from "./arena";
 
 export const enum GestureEventFlags {
-    TouchActionNone = 1 << 15,
-    TouchActionPanX = 1 << 16,
-    TouchActionPanY = 1 << 17,
-
-    GestureHandler = 1 << 18,
-
-    TouchActions = TouchActionNone | TouchActionPanX | TouchActionPanY,
+    GestureHandler = 1 << 15,
 }
 
 export const GestureEventSources = {

@@ -78,7 +78,7 @@ export {
     NativeEventSourceList, NativeActiveEventSourcesList, NativeEventSources, NativeActiveEventSources,
     Events, ActiveEvents, createEventHandler,
 } from "./events/events";
-export { GesturePointerType, GesturePointerAction, GesturePointerEvent } from "./events/gestures/pointer_event";
+export { GesturePointerAction, GesturePointerEvent } from "./events/gestures/pointer_event";
 export {
     GestureEvent, GestureTapEvent, GestureTapAction, GestureLongPressEvent, GestureScaleEvent, GestureScaleAction,
 } from "./events/gestures/gesture_event";
@@ -86,7 +86,7 @@ export { GestureEventFlags, GestureEvents } from "./events/gestures/events";
 export { GestureRecognizer, GestureArena, GestureArenaFlags } from "./events/gestures/arena";
 export { TapGestureRecognizer } from "./events/gestures/tap_recognizer";
 export { LongPressGestureRecognizer } from "./events/gestures/long_press_recognizer";
-// export { ScaleGestureRecognizer } from "./events/gestures/scale_recognizer";
+export { ScaleGestureRecognizer } from "./events/gestures/scale_recognizer";
 
 /**
  * Virtual DOM:
@@ -191,9 +191,10 @@ if (__IVI_DEV__) {
             document.title += " [DEV MODE]";
         }
 
-        function printFeatureGroup(name: string, flag: number) {
-            console.groupCollapsed(`${((FEATURES & flag) ? "✔" : "✖")} ${name}`);
-        }
+        // function printFeatureGroup(name: string, flag: number) {
+        //     console.groupCollapsed(`${((FEATURES & flag) ? "✔" : "✖")} ${name}`);
+        // }
+
         function printFeature(name: string, flag: number) {
             console.log(`${((FEATURES & flag) ? "✔" : "✖")} ${name}`);
         }
@@ -203,14 +204,6 @@ if (__IVI_DEV__) {
         printFeature("Timeline Performance Marks", FeatureFlags.DevModePerfMarks);
         printFeature("SVG innerHTML property", FeatureFlags.SVGInnerHTML);
         printFeature("KeyboardEvent key property", FeatureFlags.KeyboardEventKey);
-        if (FEATURES & FeatureFlags.PointerEvents) {
-            printFeatureGroup("Pointer Events", FeatureFlags.PointerEvents);
-            printFeature("Touch Screen", FeatureFlags.PointerEventsTouch);
-            printFeature("Multitouch Screen", FeatureFlags.PointerEventsMultiTouch);
-            console.groupEnd();
-        } else {
-            printFeature("Pointer Events", FeatureFlags.PointerEvents);
-        }
         printFeature("Touch Events", FeatureFlags.TouchEvents);
         printFeature("InputDeviceCapabilities", FeatureFlags.InputDeviceCapabilities);
         printFeature("MouseEvent buttons property", FeatureFlags.MouseEventButtons);
